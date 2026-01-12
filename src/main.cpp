@@ -13,8 +13,9 @@ int main()
 
     for(int i = 0; i < img_h; i++)
     {
-	std::clog << '\r';
-	std::clog << std::string(25, ' ') << '\r';
+	// clear up line
+	std::clog << '\r' << std::string(25, ' ') << '\r';
+	// write progress
 	std::clog << "Progress : " << ((((double)i)/(img_h-1)) * 100) << '%';
 
 	for(int j = 0; j < img_w; j++)

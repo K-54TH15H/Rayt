@@ -9,7 +9,7 @@ namespace rt
 {
     using color = vec3; // alias for rt::vec3 as color as an context - might need to modify
     
-    void write_color(std::ostream& os, const color& pixel_color)
+    inline void write_color(std::ostream& os, const color& pixel_color)
     {
 	auto r = pixel_color.x();
 	auto g = pixel_color.y();
