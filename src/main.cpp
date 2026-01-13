@@ -15,10 +15,10 @@ double hit_sphere(const ryt::vec3& center, double radius, const ryt::ray& r)
     ryt::vec3 CQ = center - r.origin();
 
     auto a = ryt::dot(r.direction(), r.direction()); // a = d.d
-    auto b = -2.0 * ryt::dot(r.direction(), CQ); // b = -2d * (C-Q)
+    auto h = ryt::dot(r.direction(), CQ); // b = -2d * (C-Q) -> h = b/-2
     auto c = ryt::dot(CQ, CQ) - (radius * radius); // c = (C-Q).(C-Q) - r^2
     
-    auto discriminant = b*b - 4*a*c; // b^2 - 4ac
+    auto discriminant = h*h - a*c; // (b^2 - 4ac)/4
 
     if(discriminant < 0)
     {
@@ -26,7 +26,7 @@ double hit_sphere(const ryt::vec3& center, double radius, const ryt::ray& r)
     }
     else
     {
-	return ( -b - std::sqrt(discriminant) ) / (2.0 * a);
+	return ( h - std::sqrt(discriminant) ) / a;
     }
 }
 
