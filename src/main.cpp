@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <rayt/graphics/color.hpp>
-#include <rayt/math/vec3.hpp>
+#include <ryt/graphics/color.hpp>
+#include <ryt/math/vec3.hpp>
 
 int main()
 {

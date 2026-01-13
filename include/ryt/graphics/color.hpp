@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include <rayt/math/vec3.hpp>
+#include <ryt/math/vec3.hpp>
 #include <iostream>
 
 

@@ -1,7 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include <rayt/math/vec3.hpp>
+#include <ryt/math/vec3.hpp>
 
 namespace ryt
 {
