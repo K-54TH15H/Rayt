@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <graphics/color.hpp>
-#include <math/vec3.hpp>
+#include <rayt/graphics/color.hpp>
+#include <rayt/math/vec3.hpp>
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
 
 	for(int j = 0; j < img_w; j++)
 	{
-	    auto pixel_color = rt::color(double(j)/(img_w-1), double(i)/(img_h-1), 0);
+	    auto pixel_color = ryt::color(double(j)/(img_w-1), double(i)/(img_h-1), 0);
 	    write_color(std::cout, pixel_color);
 	}
     }

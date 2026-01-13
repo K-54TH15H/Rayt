@@ -1,11 +1,11 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include <math/vec3.hpp>
+#include <rayt/math/vec3.hpp>
 #include <iostream>
 
 
-namespace rt
+namespace ryt
 {
     using color = vec3; // alias for rt::vec3 as color as an context - might need to modify
     

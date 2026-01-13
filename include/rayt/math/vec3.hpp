@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace rt
+namespace ryt
 {
     class vec3
     {
