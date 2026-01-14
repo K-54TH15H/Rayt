@@ -21,24 +21,42 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			(data.sphere).~Sphere(); // Calling Destructor Call Explicitly
+			(Data.sphere).~Sphere(); // Calling Destructor Call Explicitly
+		}
+	    }
+
+	    bool hit_data(const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
+	    {
+		switch(type)
+		{
+		    case SPHERE:
+			return (Data.sphere).hit(r, ray_tmin, ray_tmax, rec);
 		}
 	    }
 
 	public:
 	    GeometryType type;
 
-	    union
+	    union data
 	    {
 		Sphere sphere;
+	
+		// default constructors get destroyed placeholder constructors and destrcutors
+		// manually handled via class constructors and destrcutors
+		data() {}
+		~data() {}
 
-	    } data;
+	    } Data;
 	    
 	    ~Hittable()
 	    {
 		destroy();
 	    }
-
+	    
+	    bool hit(const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
+	    {
+		return hit_data(r, ray_tmin, ray_tmax, rec);
+	    }
     };
 }
 
