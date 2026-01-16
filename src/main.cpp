@@ -5,45 +5,23 @@
 #include <ryt/math/vec3.hpp>
 #include <ryt/math/ray.hpp>
 
+#include <ryt/graphics/hittable.hpp>
+#include <ryt/graphics/hit_record.hpp>
+#include <ryt/graphics/sphere.hpp>
+#include <ryt/graphics/rtcontext.hpp>
 
-double hit_sphere(const ryt::vec3& center, double radius, const ryt::ray& r)
+ryt::color ray_color(const ryt::ray& r, const ryt::RaytracingContext* world)
 {
-
-    // discriminant = (b^2 - 4ac)/ => a = d.d | b = -2d.(C - Q) | c = (C-Q).(C-Q) - r^2
-    // if discriminant > 0 then it is part of a sphere
-
-    ryt::vec3 CQ = center - r.origin();
-
-    auto a = ryt::dot(r.direction(), r.direction()); // a = d.d
-    auto h = ryt::dot(r.direction(), CQ); // b = -2d * (C-Q) -> h = b/-2
-    auto c = ryt::dot(CQ, CQ) - (radius * radius); // c = (C-Q).(C-Q) - r^2
-    
-    auto discriminant = h*h - a*c; // (b^2 - 4ac)/4
-
-    if(discriminant < 0)
+    ryt::Hit_Record rec;
+    if(ryt::HitWorld(world, r, 0, ryt::infinity, rec))
     {
-	return -1.0;
-    }
-    else
-    {
-	return ( h - std::sqrt(discriminant) ) / a;
-    }
-}
-
-ryt::color ray_color(const ryt::ray& r)
-{
-    double t = hit_sphere(ryt::vec3(0, 0, -1), 0.5, r);
-
-    if(t > 0.0)
-    {
-	ryt::vec3 N = unit_vector(r.at(t) - ryt::vec3(0, 0, -1));
-	return ( 0.5 * ( ryt::color(N.x()+1, N.y()+1, N.z()+1) ) );
+	return 0.5 * (rec.normal + ryt::color(1,1,1));
     }
 
-    ryt::vec3 unit_direction = ryt::unit_vector(r.direction());
-    auto a = 0.5 * (unit_direction.y() + 1.0);
-    
-    return (1.0 - a) * ryt::color(1.0, 1.0, 1.0) + a * ryt::color(0.5, 0.7, 1.0);
+    ryt::vec3 unit_direction = unit_vector(r.direction());
+    double a = 0.5 * (unit_direction.y() + 1.0);
+
+    return (1.0-a) * ryt::color(1.0, 1.0, 1.0) + a * ryt::color(0.5, 0.7, 1.0);
 }
 
 int main()
@@ -62,6 +40,18 @@ int main()
     auto viewport_height = 2.0;
     auto viewport_width = viewport_height * (double(img_w)/img_h);
     ryt::vec3 camera_center = ryt::vec3(0, 0, 0);
+
+    // world
+    ryt::RaytracingContext world;
+   
+    ryt::InitializeRaytracingContext(&world, 16);
+
+    // Push The Spheres to the World as Hittable;
+    ryt::Sphere ball(ryt::vec3(0, 0, -1), 0.5);
+    ryt::Sphere globe(ryt::vec3(0, -100.5, -1), 100);
+
+    ryt::PushHittable(&world, ryt::Hittable(ball));
+    ryt::PushHittable(&world, ryt::Hittable(globe));
 
     // vectors across horizontal and vertical viewport
     ryt::vec3 viewport_u = ryt::vec3(viewport_width, 0, 0);
@@ -92,7 +82,7 @@ int main()
 	    ryt::vec3 ray_direction = pixel_center - camera_center;
 	    ryt::ray r(camera_center, ray_direction);
 
-	    ryt::color pixel_color = ray_color(r);
+	    ryt::color pixel_color = ray_color(r, &world);
 	    write_color(std::cout, pixel_color);
 	}
     }

@@ -1,7 +1,8 @@
 #ifndef RTCONTEXT_H
 #define RTCONTEXT_H
 
-#include "ryt/graphics/hit_record.hpp"
+#include <limits>
+#include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/hittable.hpp>
 
 namespace ryt
@@ -12,7 +13,12 @@ namespace ryt
 	size_t hittableSize;
 	size_t hittableCapacity;
     };
+    
+    // Context Constants
+    const double infinity = std::numeric_limits<double>::infinity();
+    const double pi = 3.1415926535897932385;
 
+    // Context functions
     inline void InitializeRaytracingContext(RaytracingContext* context, size_t capacity)
     {
 	context->hittableCapacity = capacity;

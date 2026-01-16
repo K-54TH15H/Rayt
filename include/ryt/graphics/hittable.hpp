@@ -9,7 +9,8 @@ namespace ryt
     // Tag for Geometry type
     enum GeometryType
     {
-	SPHERE
+	SPHERE,
+	NONE
     };
 
     class Hittable
@@ -21,7 +22,11 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			(Data.sphere).~Sphere(); // Calling Destructor Call Explicitly
+			(*(Data.sphere)).~Sphere(); // Calling Destructor Call Explicitly
+			break;
+
+		    default: // None
+			break;
 		}
 	    }
 
@@ -30,7 +35,10 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			return (Data.sphere).hit(r, ray_tmin, ray_tmax, rec);
+			return (*(Data.sphere)).hit(r, ray_tmin, ray_tmax, rec);
+			
+		    default: // Hit None 
+			return false;
 		}
 	    }
 
@@ -39,7 +47,7 @@ namespace ryt
 
 	    union data
 	    {
-		Sphere sphere;
+		Sphere* sphere;
 	
 		// default constructors get destroyed placeholder constructors and destrcutors
 		// manually handled via class constructors and destrcutors
@@ -48,11 +56,22 @@ namespace ryt
 
 	    } Data;
 	    
+	    Hittable()
+	    {
+		type = NONE;
+	    }
+
+	    Hittable(Sphere& s)
+	    {
+		type = SPHERE;
+		Data.sphere = &s;
+	    }
+
 	    ~Hittable()
 	    {
 		destroy();
 	    }
-	    
+	     
 	    bool hit(const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
 	    {
 		return hit_data(r, ray_tmin, ray_tmax, rec);
