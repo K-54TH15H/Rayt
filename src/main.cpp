@@ -1,4 +1,3 @@
-#include <cmath>
 #include <iostream>
 
 #include <ryt/graphics/color.hpp>
@@ -28,7 +27,7 @@ int main()
 {
     auto aspect_ratio = 16.0 / 9.0;
 
-    int img_w = 720;
+    int img_w = 1440;
 
     // calculate img_h and clamp to > 1
     int img_h = int(img_w / aspect_ratio);
@@ -86,8 +85,10 @@ int main()
 	    write_color(std::cout, pixel_color);
 	}
     }
-
+    
     std::clog << std::endl << "Render Complete" << std::endl;
-
+    
+    ryt::DestroyRaytracingContext(&world);
+    
     return 0;
 }

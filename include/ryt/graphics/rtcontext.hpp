@@ -26,6 +26,11 @@ namespace ryt
 
 	context->hittables = new Hittable[capacity];
     }
+    
+    inline void DestroyRaytracingContext(RaytracingContext* context)
+    {
+	delete[] context->hittables;
+    }
 
     inline Hittable* PushHittable(RaytracingContext* context, Hittable hittable)
     {

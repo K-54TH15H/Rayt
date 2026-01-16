@@ -22,7 +22,7 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			(*(Data.sphere)).~Sphere(); // Calling Destructor Call Explicitly
+			((Data.sphere)).~Sphere(); // Calling Destructor Call Explicitly
 			break;
 
 		    default: // None
@@ -35,7 +35,7 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			return (*(Data.sphere)).hit(r, ray_tmin, ray_tmax, rec);
+			return ((Data.sphere)).hit(r, ray_tmin, ray_tmax, rec);
 			
 		    default: // Hit None 
 			return false;
@@ -47,7 +47,7 @@ namespace ryt
 
 	    union data
 	    {
-		Sphere* sphere;
+		Sphere sphere;
 	
 		// default constructors get destroyed placeholder constructors and destrcutors
 		// manually handled via class constructors and destrcutors
@@ -61,10 +61,10 @@ namespace ryt
 		type = NONE;
 	    }
 
-	    Hittable(Sphere& s)
+	    Hittable(Sphere s)
 	    {
 		type = SPHERE;
-		Data.sphere = &s;
+		Data.sphere = s;
 	    }
 
 	    ~Hittable()
