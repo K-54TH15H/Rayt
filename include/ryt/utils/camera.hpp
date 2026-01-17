@@ -39,11 +39,6 @@ namespace ryt
 			    ray r = get_ray(j, i);
 			    pixel_color += ray_color(r, world);
 			}
-			// ryt::vec3 pixel_center = pixel00_loc + (j * pixel_delta_u) + (i * pixel_delta_v);
-			// ryt::vec3 ray_direction = pixel_center - center;
-			// ryt::ray r(center, ray_direction);
-
-			// ryt::color pixel_color = ray_color(r, world);
 			write_color(std::cout, pixel_samples_scale * pixel_color);
 		    }
 		}
