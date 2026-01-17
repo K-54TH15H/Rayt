@@ -1,4 +1,3 @@
-#include <iostream>
 
 // math
 #include <ryt/math/vec3.hpp>
