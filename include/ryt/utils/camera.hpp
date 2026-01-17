@@ -1,10 +1,13 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+
+#include <ryt/math/interval.hpp>
+#include <ryt/math/vec3.hpp>
+
 #include <ryt/graphics/color.hpp>
 #include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/rtcontext.hpp>
-#include <ryt/math/vec3.hpp>
 #include <ryt/graphics/hittable.hpp>
 
 namespace ryt
@@ -82,7 +85,7 @@ namespace ryt
 	    {
 		Hit_Record rec;
 
-		if(HitWorld(world, r, 0, infinity, rec))
+		if(HitWorld(world, r, Interval(0, infinity), rec))
 		{
 		    return 0.5 * (rec.normal + color(1, 1, 1));
 		}

@@ -1,9 +1,10 @@
 #ifndef RTCONTEXT_H
 #define RTCONTEXT_H
 
-#include <limits>
 #include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/hittable.hpp>
+
+#include <ryt/math/interval.hpp>
 
 namespace ryt
 {
@@ -14,10 +15,6 @@ namespace ryt
 	size_t hittableCapacity;
     };
     
-    // Context Constants
-    const double infinity = std::numeric_limits<double>::infinity();
-    const double pi = 3.1415926535897932385;
-
     // Context functions
     inline void InitializeRaytracingContext(RaytracingContext* context, size_t capacity)
     {
@@ -43,16 +40,16 @@ namespace ryt
 	return &(context->hittables[context->hittableSize++]);
     }
 
-    inline bool HitWorld(const RaytracingContext* context, const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
+    inline bool HitWorld(const RaytracingContext* context, const ray& r, Interval t, Hit_Record& rec)
     {	
 	Hit_Record temp_rec;
 	bool hit_anything = false;
-	double closest_so_far = ray_tmax;
+	double closest_so_far = t.max;
 	
 	// Loop through all objects of the World
 	for(size_t i = 0; i < context->hittableSize; i++)
 	{
-	    if((context->hittables[i]).hit(r, ray_tmin, closest_so_far, temp_rec))
+	    if((context->hittables[i]).hit(r, Interval(t.min, closest_so_far), temp_rec))
 	    {
 		hit_anything = true;
 		closest_so_far = temp_rec.t;

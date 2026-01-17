@@ -1,6 +1,7 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
+#include "ryt/math/interval.hpp"
 #include <ryt/math/ray.hpp>
 #include <ryt/math/vec3.hpp>
 #include <ryt/graphics/hit_record.hpp>
@@ -17,7 +18,7 @@ namespace ryt
 	    Sphere(const vec3& center, double radius) : center(center), radius(std::fmax(0, radius))
 	    {}
 
-	    bool hit(const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
+	    bool hit(const ray& r, Interval t, Hit_Record& rec)
 	    {
 		vec3 CQ = center - r.origin();
 		auto a = r.direction().length_squared();
@@ -33,11 +34,11 @@ namespace ryt
 		// Get the nearest root that is in acceptable range
 		auto root = (h - sqrtd) / a;
 
-		if(root <= ray_tmin || ray_tmax <= root)
+		if(!t.surrounds(root))
 		{
 		    root = (h + sqrtd) / a;
 
-		    if(root <= ray_tmin || ray_tmax <= root) return false;
+		    if(!t.surrounds(root)) return false;
 		}
 
 		// record hit then return true

@@ -1,6 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+#include "ryt/math/interval.hpp"
 #include <ryt/math/ray.hpp>
 #include <ryt/graphics/sphere.hpp>
 
@@ -55,12 +56,12 @@ namespace ryt
  
 	    }
 	     
-	    bool hit(const ray& r, double ray_tmin, double ray_tmax, Hit_Record& rec)
+	    bool hit(const ray& r, Interval t, Hit_Record& rec)
 	    {
 		switch(type)
 		{
 		    case SPHERE:
-			return ((Data.sphere)).hit(r, ray_tmin, ray_tmax, rec);
+			return ((Data.sphere)).hit(r, t, rec);
 			
 		    default: // Hit None 
 			return false;
