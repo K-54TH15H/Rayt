@@ -1,6 +1,5 @@
 
 // math
-#include "ryt/graphics/material/mcore.hpp"
 #include <ryt/math/vec3.hpp>
 #include <ryt/math/ray.hpp>
 
@@ -10,6 +9,7 @@
 #include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/sphere.hpp>
 #include <ryt/graphics/rtcontext.hpp>
+#include <ryt/graphics/material.hpp>
 
 // utils
 #include <ryt/utils/camera.hpp>

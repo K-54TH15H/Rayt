@@ -5,7 +5,7 @@
 #include <ryt/math/interval.hpp>
 #include <ryt/math/vec3.hpp>
 
-#include <ryt/graphics/material/base.hpp>
+#include <ryt/graphics/material.hpp>
 #include <ryt/graphics/color.hpp>
 #include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/rtcontext.hpp>
