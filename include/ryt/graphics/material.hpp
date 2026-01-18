@@ -85,7 +85,16 @@ namespace ryt
 
 	    ~Material()
 	    {
-
+		switch(type)
+		{
+		    case LAMBERTIAN:
+			(Data.lambertian).~Lambertian();
+			break;
+		    
+		    case METAL:
+			(Data.metal).~Metal();
+			break;
+		}
 	    }
 
 	    bool scatter(const ray& r_in, const Hit_Record& rec, color& attenuation, ray& scattered) const 
