@@ -111,7 +111,7 @@ namespace ryt
 
 	    color ray_color(const ray& r, int depth, const RaytracingContext* world) const
 	    {
-		if(depth <= 0) return color(0, 0, 0); // if exceeded limit then no light is accumulated
+/*		if(depth <= 0) return color(0, 0, 0); // if exceeded limit then no light is accumulated
 		Hit_Record rec;
 
 		if(HitWorld(world, r, Interval(0, infinity), rec))
@@ -125,6 +125,40 @@ namespace ryt
 		double a = 0.5 * (unit_direction.y + 1.0);
 
 		return (1.0 - a) * color(1, 1, 1) + a * color(0.5, 0.7, 1.0);
+*/
+		ray current_ray = r;
+
+		color accumulated_light(0, 0, 0);
+		double throughput = 1.0;
+		
+		for(int i = 0; i < max_depth; i++)
+		{
+		    Hit_Record rec;
+
+		    if(HitWorld(world, current_ray, Interval(0, infinity), rec))
+		    {
+			vec3 direction = random_on_hemisphere(rec.normal);
+			
+			throughput *= 0.5;
+
+			current_ray = ray(rec.p, direction);
+
+		    }
+		    else
+		    {
+			vec3 unit_direction = unit_vector(current_ray.direction());
+			double a = 0.5 * (unit_direction.y + 1.0);
+
+			color sky_color = (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
+
+			accumulated_light = throughput * sky_color;
+
+			return accumulated_light;
+		    }
+		}
+
+		//ray is absorbed(trapped) [returns black]
+		return color(0, 0, 0); 	    
 	    }
     };
 }
