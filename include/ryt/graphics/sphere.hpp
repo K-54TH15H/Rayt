@@ -13,6 +13,7 @@ namespace ryt
 	private:
 	    vec3 center;
 	    double radius;
+	    Material mat;
 
 	public:
 	    Sphere(const vec3& center, double radius) : center(center), radius(std::fmax(0, radius))
@@ -47,6 +48,7 @@ namespace ryt
 
 		vec3 outward_normal = (rec.p - center) / radius;
 		rec.set_face_normal(r, outward_normal);
+		rec.mat = mat;
 
 		return true;
 	    }

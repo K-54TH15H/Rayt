@@ -1,6 +1,8 @@
 #ifndef HIT_RECORD_H
 #define HIT_RECORD_H
 
+#include <ryt/graphics/material/base.hpp>
+
 #include <ryt/math/vec3.hpp>
 #include <ryt/math/ray.hpp>
 
@@ -12,6 +14,7 @@ namespace ryt
 	public:
 	    vec3 p;
 	    vec3 normal;
+	    Material mat; 
 	    double t;
 	    bool front_face;
 

@@ -55,6 +55,12 @@ namespace ryt
 
 	    double length() const { return std::sqrt(length_squared()); }
 
+	    bool near_zero() const
+	    {
+		auto co = 1e-8; // cuttoff
+		return (std::fabs(x) < co) && (std::fabs(y) < co) && (std::fabs(z) < co);
+	    }
+
 	    static vec3 random()
 	    {
 		return vec3(random_double(), random_double(), random_double());
