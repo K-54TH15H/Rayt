@@ -1,6 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include "ryt/math/vec3.hpp"
 #include <ryt/graphics/hit_record.hpp>
 #include <ryt/graphics/color.hpp>
 
@@ -33,17 +34,20 @@ namespace ryt
     {
 	private:
 	    color albedo;
+	    double fuzz;
 	
 	public:
-	    Metal(const color& albedo) : albedo(albedo) {}
+	    Metal(const color& albedo, double fuzz) : albedo(albedo), fuzz(fuzz) {}
 
 	    bool scatter(const ray& r_in, const Hit_Record& rec, color& attenuation, ray& scattered) const 
 	    {
 		vec3 reflected = reflect(r_in.direction(), rec.normal);
+		reflected = (unit_vector(reflected)) + (fuzz * random_unit_vector());
+
 		scattered = ray(rec.p, reflected);
 		attenuation = albedo;
 		
-		return true;
+		return (dot(scattered.direction(), rec.normal) > 0);
 	    }
     };
 }

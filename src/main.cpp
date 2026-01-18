@@ -21,8 +21,8 @@ int main()
     
     ryt::Lambertian material_ground(ryt::color(0.8, 0.8, 0.0));
     ryt::Lambertian material_center(ryt::color(0.7, 0.1, 0.2));
-    ryt::Metal metal_left(ryt::color(0.8, 0.8, 0.8));
-    ryt::Metal metal_right(ryt::color(0.8, 0.6, 0.2));
+    ryt::Metal metal_left(ryt::color(0.8, 0.8, 0.8), 0.0);
+    ryt::Metal metal_right(ryt::color(0.8, 0.6, 0.2), 1.0);
 
     
     ryt::PushHittable(&world, ryt::Sphere(ryt::vec3(0, 0, -1.2), 0.5, material_center));
