@@ -122,7 +122,7 @@ namespace ryt
 
 		    if(HitWorld(world, current_ray, Interval(0.001, infinity), rec))
 		    {
-			vec3 direction = random_on_hemisphere(rec.normal) + rec.normal;
+			vec3 direction = random_unit_vector() + rec.normal;
 			
 			throughput *= 0.5;
 
