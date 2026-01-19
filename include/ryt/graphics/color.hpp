@@ -10,7 +10,7 @@
 
 namespace ryt
 {
-    using color = vec3; // alias for rt::vec3 as color as an context - might need to modify
+    using color = Vec3; // alias for rt::Vec3 as color as an context - might need to modify
 
     inline void linear_to_gamma(double& linear_component)
     {

@@ -13,17 +13,17 @@ namespace ryt
     class Sphere
     {
 	private:
-	    vec3 center;
+	    Vec3 center;
 	    double radius;
 	    Material mat;
 
 	public:
-	    Sphere(const vec3& center, double radius, Material mat) : center(center), radius(std::fmax(0, radius)), mat(mat)
+	    Sphere(const Vec3& center, double radius, Material mat) : center(center), radius(std::fmax(0, radius)), mat(mat)
 	    {}
 
 	    bool hit(const ray& r, Interval t, Hit_Record& rec)
 	    {
-		vec3 CQ = center - r.origin();
+		Vec3 CQ = center - r.origin();
 		auto a = r.direction().length_squared();
 		auto h = dot(r.direction(), CQ);
 		auto c = CQ.length_squared() - radius * radius;
@@ -48,7 +48,7 @@ namespace ryt
 		rec.t = root;
 		rec.p = r.at(rec.t);
 
-		vec3 outward_normal = (rec.p - center) / radius;
+		Vec3 outward_normal = (rec.p - center) / radius;
 		rec.set_face_normal(r, outward_normal);
 		rec.mat = &mat;
 

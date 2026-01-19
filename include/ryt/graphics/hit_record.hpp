@@ -11,13 +11,13 @@ namespace ryt
     class Hit_Record
     {
 	public:
-	    vec3 p;
-	    vec3 normal;
+	    Vec3 p;
+	    Vec3 normal;
 	    Material* mat; // This Doesn't Own the Material just points to it.
 	    double t;
 	    bool front_face;
 
-	    void set_face_normal(const ray& r, const vec3& outward_normal)
+	    void set_face_normal(const ray& r, const Vec3& outward_normal)
 	    {
 		front_face = dot(r.direction(), outward_normal) < 0;
 

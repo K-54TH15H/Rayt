@@ -25,10 +25,10 @@ int main()
     ryt::Metal metal_right(ryt::color(0.8, 0.6, 0.2), 1.0);
 
     
-    ryt::PushHittable(&world, ryt::Sphere(ryt::vec3(0, 0, -1.2), 0.5, material_center));
-    ryt::PushHittable(&world, ryt::Sphere(ryt::vec3(0, -100.5, -1), 100, material_ground));
-    ryt::PushHittable(&world, ryt::Sphere(ryt::vec3(-1, 0, -1), 0.5, metal_left));
-    ryt::PushHittable(&world, ryt::Sphere(ryt::vec3(1, 0, -1.0), 0.5, metal_right));
+    ryt::PushHittable(&world, ryt::Sphere(ryt::Vec3(0, 0, -1.2), 0.5, material_center));
+    ryt::PushHittable(&world, ryt::Sphere(ryt::Vec3(0, -100.5, -1), 100, material_ground));
+    ryt::PushHittable(&world, ryt::Sphere(ryt::Vec3(-1, 0, -1), 0.5, metal_left));
+    ryt::PushHittable(&world, ryt::Sphere(ryt::Vec3(1, 0, -1.0), 0.5, metal_right));
 
     ryt::Camera cam;
 

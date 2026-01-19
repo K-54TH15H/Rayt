@@ -24,7 +24,7 @@ namespace ryt
 
 	    bool scatter(const ray& r_in, const Hit_Record& rec, color& attenuation, ray& scattered) const
 	    {
-		vec3 scatter_direction = rec.normal + random_unit_vector();
+		Vec3 scatter_direction = rec.normal + random_unit_vector();
 
 		if(scatter_direction.near_zero()) scatter_direction = rec.normal;
 
@@ -46,7 +46,7 @@ namespace ryt
 
 	    bool scatter(const ray& r_in, const Hit_Record& rec, color& attenuation, ray& scattered) const 
 	    {
-		vec3 reflected = reflect(r_in.direction(), rec.normal);
+		Vec3 reflected = reflect(r_in.direction(), rec.normal);
 		reflected = (unit_vector(reflected)) + (fuzz * random_unit_vector());
 
 		scattered = ray(rec.p, reflected);
