@@ -48,25 +48,25 @@ namespace ryt
 	    }
 	    
 	    // length functions
-	    double length_squared() const
+	    double LengthSquared() const
 	    {
 		return ( (x*x) + (y*y) + (z*z) );
 	    }
 
-	    double length() const { return std::sqrt(length_squared()); }
+	    double Length() const { return std::sqrt(LengthSquared()); }
 
-	    bool near_zero() const
+	    bool NearZero() const
 	    {
 		auto co = 1e-8; // cuttoff
 		return (std::fabs(x) < co) && (std::fabs(y) < co) && (std::fabs(z) < co);
 	    }
 
-	    static Vec3 random()
+	    static Vec3 Random()
 	    {
 		return Vec3(RandomDouble(), RandomDouble(), RandomDouble());
 	    }
 
-	    static Vec3 random(double min, double max)
+	    static Vec3 Random(double min, double max)
 	    {
 		return Vec3(RandomDouble(min, max), RandomDouble(min, max), RandomDouble(min, max));
 	    }
@@ -104,12 +104,12 @@ namespace ryt
 	return (1/t) * v;
     }
 
-    inline double dot(const Vec3& u, const Vec3& v)
+    inline double Dot(const Vec3& u, const Vec3& v)
     {
 	return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
     }
 
-    inline Vec3 cross(const Vec3& u, const Vec3& v)
+    inline Vec3 Cross(const Vec3& u, const Vec3& v)
     {
 	return Vec3(u.y * v.z - u.z * v.y,
 		    u.z * v.x - u.x * v.z,
@@ -117,33 +117,33 @@ namespace ryt
 		    );
     }
 
-    inline Vec3 unit_vector(const Vec3& v)
+    inline Vec3 UnitVector(const Vec3& v)
     {
-	return v/v.length();
+	return v/v.Length();
     }
 
-    inline Vec3 random_unit_vector()
+    inline Vec3 RandomUnitVector()
     {
 	while(true)
 	{
-	    Vec3 p = Vec3::random(-1, 1);
-	    double len_sq = p.length_squared();
+	    Vec3 p = Vec3::Random(-1, 1);
+	    double len_sq = p.LengthSquared();
 
 	    if(1e-160 < len_sq && len_sq <= 1) return (p / sqrt(len_sq));
 	}
     }
 
-    inline Vec3 random_on_hemisphere(const Vec3& normal)
+    inline Vec3 RandomOnHemisphere(const Vec3& normal)
     {
-	Vec3 on_unit_sphere = random_unit_vector();
+	Vec3 on_unit_sphere = RandomUnitVector();
 
-	if(dot(on_unit_sphere, normal) > 0.0) return on_unit_sphere;
+	if(Dot(on_unit_sphere, normal) > 0.0) return on_unit_sphere;
 	else return -on_unit_sphere;
     }
 
-    inline Vec3 reflect(const Vec3& v, const Vec3& n)
+    inline Vec3 Reflect(const Vec3& v, const Vec3& n)
     {
-	return v - (2 * dot(v,n) * n);
+	return v - (2 * Dot(v,n) * n);
     }
 }
 

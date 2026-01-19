@@ -17,16 +17,16 @@ namespace ryt
     class Lambertian
     {
 	private:
-	    color albedo;
+	    Color albedo;
 
 	public:
-	    Lambertian(const color& albedo) : albedo(albedo) {}
+	    Lambertian(const Color& albedo) : albedo(albedo) {}
 
-	    bool scatter(const Ray& r_in, const Hit_Record& rec, color& attenuation, Ray& scattered) const
+	    bool Scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const
 	    {
-		Vec3 scatter_direction = rec.normal + random_unit_vector();
+		Vec3 scatter_direction = rec.normal + RandomUnitVector();
 
-		if(scatter_direction.near_zero()) scatter_direction = rec.normal;
+		if(scatter_direction.NearZero()) scatter_direction = rec.normal;
 
 		scattered = Ray(rec.p, scatter_direction);
 		attenuation = albedo;
@@ -38,21 +38,21 @@ namespace ryt
     class Metal
     {
 	private:
-	    color albedo;
+	    Color albedo;
 	    double fuzz;
 
 	public:
-	    Metal(const color& albedo, double fuzz) : albedo(albedo), fuzz(fuzz) {}
+	    Metal(const Color& albedo, double fuzz) : albedo(albedo), fuzz(fuzz) {}
 
-	    bool scatter(const Ray& r_in, const Hit_Record& rec, color& attenuation, Ray& scattered) const 
+	    bool Scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const 
 	    {
-		Vec3 reflected = reflect(r_in.direction(), rec.normal);
-		reflected = (unit_vector(reflected)) + (fuzz * random_unit_vector());
+		Vec3 reflected = Reflect(r_in.Direction(), rec.normal);
+		reflected = (UnitVector(reflected)) + (fuzz * RandomUnitVector());
 
 		scattered = Ray(rec.p, reflected);
 		attenuation = albedo;
 
-		return (dot(scattered.direction(), rec.normal) > 0);
+		return (Dot(scattered.Direction(), rec.normal) > 0);
 	    }
     };
 
@@ -97,15 +97,15 @@ namespace ryt
 		}
 	    }
 
-	    bool scatter(const Ray& r_in, const Hit_Record& rec, color& attenuation, Ray& scattered) const 
+	    bool Scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const 
 	    {
 		switch(type)
 		{
 		    case LAMBERTIAN:
-			return Data.lambertian.scatter(r_in, rec, attenuation, scattered);
+			return Data.lambertian.Scatter(r_in, rec, attenuation, scattered);
 
 		    case METAL:
-			return Data.metal.scatter(r_in, rec, attenuation, scattered);
+			return Data.metal.Scatter(r_in, rec, attenuation, scattered);
 
 		    default:
 			return false;

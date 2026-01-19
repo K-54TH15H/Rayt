@@ -40,16 +40,16 @@ namespace ryt
 	return &(context->hittables[context->hittableSize++]);
     }
 
-    inline bool HitWorld(const RaytracingContext* context, const Ray& r, Interval t, Hit_Record& rec)
+    inline bool HitWorld(const RaytracingContext* context, const Ray& r, Interval t, HitRecord& rec)
     {	
-	Hit_Record temp_rec;
+	HitRecord temp_rec;
 	bool hit_anything = false;
 	double closest_so_far = t.max;
 	
 	// Loop through all objects of the World
 	for(size_t i = 0; i < context->hittableSize; i++)
 	{
-	    if((context->hittables[i]).hit(r, Interval(t.min, closest_so_far), temp_rec))
+	    if((context->hittables[i]).Hit(r, Interval(t.min, closest_so_far), temp_rec))
 	    {
 		hit_anything = true;
 		closest_so_far = temp_rec.t;

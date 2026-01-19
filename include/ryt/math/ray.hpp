@@ -17,17 +17,17 @@ namespace ryt
 	    Ray(const Vec3& origin, const Vec3& direction) : orig(origin), dir(direction) {}
 	    
 	    // getters
-	    const Vec3& origin() const
+	    const Vec3& Origin() const
 	    {
 		return orig;
 	    }
 
-	    const Vec3& direction() const
+	    const Vec3& Direction() const
 	    {
 		return dir;
 	    }
 
-	    Vec3 at(double t) const
+	    Vec3 At(double t) const
 	    {
 		return orig + (t * dir);
 	    }

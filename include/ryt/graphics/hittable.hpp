@@ -56,12 +56,12 @@ namespace ryt
  
 	    }
 	     
-	    bool hit(const Ray& r, Interval t, Hit_Record& rec)
+	    bool Hit(const Ray& r, Interval t, HitRecord& rec)
 	    {
 		switch(type)
 		{
 		    case SPHERE:
-			return ((Data.sphere)).hit(r, t, rec);
+			return ((Data.sphere)).Hit(r, t, rec);
 			
 		    default: // Hit None 
 			return false;
