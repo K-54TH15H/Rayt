@@ -12,9 +12,9 @@ namespace ryt
 {
     using color = vec3; // alias for rt::vec3 as color as an context - might need to modify
 
-    inline double linear_to_gamma(double& linear_component)
+    inline void linear_to_gamma(double& linear_component)
     {
-	return (linear_component > 0) ? std::sqrt(linear_component) : 0;
+	linear_component = (linear_component > 0) ? std::sqrt(linear_component) : 0;
     }
 
     inline void write_color(std::ostream& os, const color& pixel_color)

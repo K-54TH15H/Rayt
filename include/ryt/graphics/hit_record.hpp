@@ -6,12 +6,14 @@
 
 namespace ryt
 {
+    class Material; // Forward Declaration
 
     class Hit_Record
     {
 	public:
 	    vec3 p;
 	    vec3 normal;
+	    Material* mat; // This Doesn't Own the Material just points to it.
 	    double t;
 	    bool front_face;
 

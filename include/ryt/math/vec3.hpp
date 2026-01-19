@@ -55,6 +55,12 @@ namespace ryt
 
 	    double length() const { return std::sqrt(length_squared()); }
 
+	    bool near_zero() const
+	    {
+		auto co = 1e-8; // cuttoff
+		return (std::fabs(x) < co) && (std::fabs(y) < co) && (std::fabs(z) < co);
+	    }
+
 	    static vec3 random()
 	    {
 		return vec3(random_double(), random_double(), random_double());
@@ -133,6 +139,11 @@ namespace ryt
 
 	if(dot(on_unit_sphere, normal) > 0.0) return on_unit_sphere;
 	else return -on_unit_sphere;
+    }
+
+    inline vec3 reflect(const vec3& v, const vec3& n)
+    {
+	return v - (2 * dot(v,n) * n);
     }
 }
 

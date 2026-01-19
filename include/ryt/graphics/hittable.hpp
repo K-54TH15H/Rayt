@@ -1,7 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ryt/math/interval.hpp"
+#include <ryt/math/interval.hpp>
 #include <ryt/math/ray.hpp>
 #include <ryt/graphics/sphere.hpp>
 
