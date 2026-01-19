@@ -13,20 +13,20 @@ namespace ryt
     class Sphere
     {
 	private:
-	    vec3 center;
+	    Vec3 center;
 	    double radius;
 	    Material mat;
 
 	public:
-	    Sphere(const vec3& center, double radius, Material mat) : center(center), radius(std::fmax(0, radius)), mat(mat)
+	    Sphere(const Vec3& center, double radius, Material mat) : center(center), radius(std::fmax(0, radius)), mat(mat)
 	    {}
 
-	    bool hit(const ray& r, Interval t, Hit_Record& rec)
+	    bool Hit(const Ray& r, Interval t, HitRecord& rec)
 	    {
-		vec3 CQ = center - r.origin();
-		auto a = r.direction().length_squared();
-		auto h = dot(r.direction(), CQ);
-		auto c = CQ.length_squared() - radius * radius;
+		Vec3 CQ = center - r.Origin();
+		auto a = r.Direction().LengthSquared();
+		auto h = Dot(r.Direction(), CQ);
+		auto c = CQ.LengthSquared() - radius * radius;
 
 		auto discriminant = h*h - a*c;
 
@@ -37,19 +37,19 @@ namespace ryt
 		// Get the nearest root that is in acceptable range
 		auto root = (h - sqrtd) / a;
 
-		if(!t.surrounds(root))
+		if(!t.Surrounds(root))
 		{
 		    root = (h + sqrtd) / a;
 
-		    if(!t.surrounds(root)) return false;
+		    if(!t.Surrounds(root)) return false;
 		}
 
 		// record hit then return true
 		rec.t = root;
-		rec.p = r.at(rec.t);
+		rec.p = r.At(rec.t);
 
-		vec3 outward_normal = (rec.p - center) / radius;
-		rec.set_face_normal(r, outward_normal);
+		Vec3 outward_normal = (rec.p - center) / radius;
+		rec.SetFaceNormal(r, outward_normal);
 		rec.mat = &mat;
 
 		return true;

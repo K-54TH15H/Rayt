@@ -10,29 +10,29 @@
 
 namespace ryt
 {
-    using color = vec3; // alias for rt::vec3 as color as an context - might need to modify
+    using Color = Vec3; // alias for rt::Vec3 as color as an context - might need to modify
 
-    inline void linear_to_gamma(double& linear_component)
+    inline void LinearToGamma(double& linearComponent)
     {
-	linear_component = (linear_component > 0) ? std::sqrt(linear_component) : 0;
+	linearComponent = (linearComponent > 0) ? std::sqrt(linearComponent) : 0;
     }
 
-    inline void write_color(std::ostream& os, const color& pixel_color)
+    inline void WriteColor(std::ostream& os, const Color& pixelColor)
     {
-	auto r = pixel_color.x;
-	auto g = pixel_color.y;
-	auto b = pixel_color.z;
+	auto r = pixelColor.x;
+	auto g = pixelColor.y;
+	auto b = pixelColor.z;
 	
 	// Gamma correction
-	linear_to_gamma(r);
-	linear_to_gamma(g);
-	linear_to_gamma(b);
+	LinearToGamma(r);
+	LinearToGamma(g);
+	LinearToGamma(b);
 
 	static const Interval intensity(0.000, 0.999);
 
-	int rb = int(256 * intensity.clamp(r));
-	int gb = int(256 * intensity.clamp(g));
-	int bb = int(256 * intensity.clamp(b));
+	int rb = int(256 * intensity.Clamp(r));
+	int gb = int(256 * intensity.Clamp(g));
+	int bb = int(256 * intensity.Clamp(b));
 
 	os << rb << ' ' << gb << ' ' << bb << std::endl;
     }

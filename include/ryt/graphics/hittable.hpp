@@ -20,16 +20,16 @@ namespace ryt
 	public:
 	    GeometryType type;
 
-	    union data
+	    union MemberData
 	    {
 		Sphere sphere;
 	
 		// default constructors get destroyed placeholder constructors and destrcutors
 		// manually handled via class constructors and destrcutors
-		data() {}
-		~data() {}
+		MemberData() {}
+		~MemberData() {}
 
-	    } Data;
+	    }data;
 	    
 	    Hittable()
 	    {
@@ -39,7 +39,7 @@ namespace ryt
 	    Hittable(Sphere s)
 	    {
 		type = SPHERE;
-		Data.sphere = s;
+		data.sphere = s;
 	    }
 
 	    ~Hittable()
@@ -47,7 +47,7 @@ namespace ryt
 		switch(type)
 		{
 		    case SPHERE:
-			((Data.sphere)).~Sphere(); // Calling Destructor Call Explicitly
+			((data.sphere)).~Sphere(); // Calling Destructor Call Explicitly
 			break;
 
 		    default: // None
@@ -56,12 +56,12 @@ namespace ryt
  
 	    }
 	     
-	    bool hit(const ray& r, Interval t, Hit_Record& rec)
+	    bool Hit(const Ray& r, Interval t, HitRecord& rec)
 	    {
 		switch(type)
 		{
 		    case SPHERE:
-			return ((Data.sphere)).hit(r, t, rec);
+			return ((data.sphere)).Hit(r, t, rec);
 			
 		    default: // Hit None 
 			return false;

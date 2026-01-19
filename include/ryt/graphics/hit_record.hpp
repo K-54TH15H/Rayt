@@ -8,20 +8,20 @@ namespace ryt
 {
     class Material; // Forward Declaration
 
-    class Hit_Record
+    class HitRecord
     {
 	public:
-	    vec3 p;
-	    vec3 normal;
+	    Vec3 p;
+	    Vec3 normal;
 	    Material* mat; // This Doesn't Own the Material just points to it.
 	    double t;
-	    bool front_face;
+	    bool frontFace;
 
-	    void set_face_normal(const ray& r, const vec3& outward_normal)
+	    void SetFaceNormal(const Ray& r, const Vec3& outwardNormal)
 	    {
-		front_face = dot(r.direction(), outward_normal) < 0;
+		frontFace = Dot(r.Direction(), outwardNormal) < 0;
 
-		normal = (front_face) ? outward_normal : -outward_normal;
+		normal = (frontFace) ? outwardNormal : -outwardNormal;
 	    }
     };
 }

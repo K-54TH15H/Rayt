@@ -8,23 +8,23 @@
 
 namespace ryt
 {
-    class vec3
+    class Vec3
     {
 	public:
 	    // data
 	    double x, y, z;
 	    
 	    // constructors
-	    vec3() : x(0), y(0), z(0) {}
-	    vec3(double x, double y, double z) : x(x), y(y), z(z) {}
+	    Vec3() : x(0), y(0), z(0) {}
+	    Vec3(double x, double y, double z) : x(x), y(y), z(z) {}
 
 	    // operator overloadings
-	    vec3 operator-() const
+	    Vec3 operator-() const
 	    {
-		return vec3(-x, -y, -z);
+		return Vec3(-x, -y, -z);
 	    }
 
-	    vec3& operator+=(const vec3& v)
+	    Vec3& operator+=(const Vec3& v)
 	    {
 		x += v.x;
 		y += v.y;
@@ -33,7 +33,7 @@ namespace ryt
 		return *this;
 	    }
 
-	    vec3& operator*=(double t)
+	    Vec3& operator*=(double t)
 	    {
 		x *= t;
 		y *= t;
@@ -42,108 +42,108 @@ namespace ryt
 		return *this;
 	    }
 
-	    vec3& operator/=(double t)
+	    Vec3& operator/=(double t)
 	    {
 		return *this *= 1/t;
 	    }
 	    
 	    // length functions
-	    double length_squared() const
+	    double LengthSquared() const
 	    {
 		return ( (x*x) + (y*y) + (z*z) );
 	    }
 
-	    double length() const { return std::sqrt(length_squared()); }
+	    double Length() const { return std::sqrt(LengthSquared()); }
 
-	    bool near_zero() const
+	    bool NearZero() const
 	    {
 		auto co = 1e-8; // cuttoff
 		return (std::fabs(x) < co) && (std::fabs(y) < co) && (std::fabs(z) < co);
 	    }
 
-	    static vec3 random()
+	    static Vec3 Random()
 	    {
-		return vec3(random_double(), random_double(), random_double());
+		return Vec3(RandomDouble(), RandomDouble(), RandomDouble());
 	    }
 
-	    static vec3 random(double min, double max)
+	    static Vec3 Random(double min, double max)
 	    {
-		return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+		return Vec3(RandomDouble(min, max), RandomDouble(min, max), RandomDouble(min, max));
 	    }
     };
 
     // vector utility functions
 
-    inline std::ostream& operator<<(std::ostream& os, const vec3& v)
+    inline std::ostream& operator<<(std::ostream& os, const Vec3& v)
     {
 	return os << v.x << ' ' << v.y  << ' ' << v.z;
     }
 
-    inline vec3 operator+(const vec3& u, const vec3& v)
+    inline Vec3 operator+(const Vec3& u, const Vec3& v)
     {
-	return vec3((u.x + v.x), (u.y + v.y), (u.z + v.z));
+	return Vec3((u.x + v.x), (u.y + v.y), (u.z + v.z));
     }
 
-    inline vec3 operator-(const vec3& u, const vec3& v)
+    inline Vec3 operator-(const Vec3& u, const Vec3& v)
     {
-	return vec3((u.x - v.x), (u.y - v.y), (u.z - v.z));
+	return Vec3((u.x - v.x), (u.y - v.y), (u.z - v.z));
     }
 
-    inline vec3 operator*(double t, const vec3& v)
+    inline Vec3 operator*(double t, const Vec3& v)
     {
-	return vec3(t * v.x, t * v.y, t * v.z);
+	return Vec3(t * v.x, t * v.y, t * v.z);
     }
 
-    inline vec3 operator*(const vec3& u, const vec3& v)
+    inline Vec3 operator*(const Vec3& u, const Vec3& v)
     {
-	return vec3(u.x * v.x, u.y * v.y, u.z * v.z);
+	return Vec3(u.x * v.x, u.y * v.y, u.z * v.z);
     }
 
-    inline vec3 operator/(const vec3& v, double t)
+    inline Vec3 operator/(const Vec3& v, double t)
     {
 	return (1/t) * v;
     }
 
-    inline double dot(const vec3& u, const vec3& v)
+    inline double Dot(const Vec3& u, const Vec3& v)
     {
 	return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
     }
 
-    inline vec3 cross(const vec3& u, const vec3& v)
+    inline Vec3 Cross(const Vec3& u, const Vec3& v)
     {
-	return vec3(u.y * v.z - u.z * v.y,
+	return Vec3(u.y * v.z - u.z * v.y,
 		    u.z * v.x - u.x * v.z,
 		    u.x * v.y - u.y * v.x
 		    );
     }
 
-    inline vec3 unit_vector(const vec3& v)
+    inline Vec3 UnitVector(const Vec3& v)
     {
-	return v/v.length();
+	return v/v.Length();
     }
 
-    inline vec3 random_unit_vector()
+    inline Vec3 RandomUnitVector()
     {
 	while(true)
 	{
-	    vec3 p = vec3::random(-1, 1);
-	    double len_sq = p.length_squared();
+	    Vec3 p = Vec3::Random(-1, 1);
+	    double lenSq = p.LengthSquared();
 
-	    if(1e-160 < len_sq && len_sq <= 1) return (p / sqrt(len_sq));
+	    if(1e-160 < lenSq && lenSq <= 1) return (p / sqrt(lenSq));
 	}
     }
 
-    inline vec3 random_on_hemisphere(const vec3& normal)
+    inline Vec3 RandomOnHemisphere(const Vec3& normal)
     {
-	vec3 on_unit_sphere = random_unit_vector();
+	Vec3 onUnitSphere = RandomUnitVector();
 
-	if(dot(on_unit_sphere, normal) > 0.0) return on_unit_sphere;
-	else return -on_unit_sphere;
+	if(Dot(onUnitSphere, normal) > 0.0) return onUnitSphere;
+	else return -onUnitSphere;
     }
 
-    inline vec3 reflect(const vec3& v, const vec3& n)
+    inline Vec3 Reflect(const Vec3& v, const Vec3& n)
     {
-	return v - (2 * dot(v,n) * n);
+	return v - (2 * Dot(v,n) * n);
     }
 }
 

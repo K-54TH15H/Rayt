@@ -20,22 +20,22 @@ namespace ryt
 	    // Range based constructor
 	    Interval(double min, double max) : min(min), max(max) {}
 
-	    double size() const
+	    double Size() const
 	    {
 		return max - min;
 	    }
 
-	    bool contains(double x) const
+	    bool Contains(double x) const
 	    {
 		return min <= x && x <= max;
 	    }
 
-	    bool surrounds(double x) const
+	    bool Surrounds(double x) const
 	    {
 		return min < x && x < max;
 	    }
 	    
-	    double clamp(double x) const
+	    double Clamp(double x) const
 	    {
 		if(x < min) return min;
 		else if(x > max) return max;

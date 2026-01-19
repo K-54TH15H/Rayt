@@ -5,29 +5,29 @@
 
 namespace ryt
 {
-    class ray
+    class Ray
     {
 	private:
-		vec3 orig;
-		vec3 dir;
+		Vec3 orig;
+		Vec3 dir;
 	public:
 	    
 	    // constructors
-	    ray() {}
-	    ray(const vec3& origin, const vec3& direction) : orig(origin), dir(direction) {}
+	    Ray() {}
+	    Ray(const Vec3& origin, const Vec3& direction) : orig(origin), dir(direction) {}
 	    
 	    // getters
-	    const vec3& origin() const
+	    const Vec3& Origin() const
 	    {
 		return orig;
 	    }
 
-	    const vec3& direction() const
+	    const Vec3& Direction() const
 	    {
 		return dir;
 	    }
 
-	    vec3 at(double t) const
+	    Vec3 At(double t) const
 	    {
 		return orig + (t * dir);
 	    }
