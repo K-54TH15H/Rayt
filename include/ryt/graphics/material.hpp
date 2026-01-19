@@ -1,5 +1,5 @@
-#ifndef BASE_H
-#define BASE_H
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
 #include <ryt/graphics/color.hpp>
 #include <ryt/graphics/hit_record.hpp>
@@ -24,11 +24,11 @@ namespace ryt
 
 	    bool Scatter(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const
 	    {
-		Vec3 scatter_direction = rec.normal + RandomUnitVector();
+		Vec3 scatterDirection = rec.normal + RandomUnitVector();
 
-		if(scatter_direction.NearZero()) scatter_direction = rec.normal;
+		if(scatterDirection.NearZero()) scatterDirection = rec.normal;
 
-		scattered = Ray(rec.p, scatter_direction);
+		scattered = Ray(rec.p, scatterDirection);
 		attenuation = albedo;
 
 		return true;
@@ -39,15 +39,15 @@ namespace ryt
     {
 	private:
 	    Color albedo;
-	    double fuzz;
+	    double roughness;
 
 	public:
-	    Metal(const Color& albedo, double fuzz) : albedo(albedo), fuzz(fuzz) {}
+	    Metal(const Color& albedo, double roughness) : albedo(albedo), roughness(roughness) {}
 
 	    bool Scatter(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const 
 	    {
 		Vec3 reflected = Reflect(rIn.Direction(), rec.normal);
-		reflected = (UnitVector(reflected)) + (fuzz * RandomUnitVector());
+		reflected = (UnitVector(reflected)) + (roughness * RandomUnitVector());
 
 		scattered = Ray(rec.p, reflected);
 		attenuation = albedo;
