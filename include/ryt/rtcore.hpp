@@ -70,8 +70,8 @@ namespace RYT
     };
     
     // ********** RANDOM ********** //
-    inline double RandomDouble();
-    inline double RandomDouble(double min, double max);
+    double RandomDouble();
+    double RandomDouble(double min, double max);
     
     // ********** Interval ********** //
     // Interval constants
