@@ -228,10 +228,10 @@ namespace RYT
     };
     
     // Context functions
-    inline void InitializeRaytracingContext(RaytracingContext* context, size_t capacity);
-    inline void DestroyRaytracingContext(RaytracingContext* context);
-    inline Hittable* PushHittable(RaytracingContext* context, Hittable hittable);
-    inline bool HitWorld(const RaytracingContext* context, const Ray& r, Interval t, HitRecord& rec);
+    void InitializeRaytracingContext(RaytracingContext* context, size_t capacity);
+    void DestroyRaytracingContext(RaytracingContext* context);
+    Hittable* PushHittable(RaytracingContext* context, Hittable hittable);
+    bool HitWorld(const RaytracingContext* context, const Ray& r, Interval t, HitRecord& rec);
 
 
     // ********** Camera ********** //
