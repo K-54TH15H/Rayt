@@ -26,7 +26,7 @@ void RenderDefaultScene()
     
     RYT::Lambertian materialGround = {RYT::Color(0.8, 0.8, 0.0)};
     RYT::Lambertian materialCenter = {RYT::Color(0.2, 0.1, 0.7)};
-    RYT::Metal metalLeft = {RYT::Color(0.8, 0.8, 0.8), 0.0};
+    RYT::Metal metalLeft = {RYT::Color(0.8, 0.8, 0.8), 0.3};
     RYT::Metal metalRight = {RYT::Color(0.8, 0.6, 0.2), 1.0};
 
     
@@ -45,7 +45,7 @@ void RenderDefaultScene()
 
 int main()
 {
-    RenderDesertScene();
+    RenderDefaultScene();
 
     return 0;
 }
