@@ -251,6 +251,14 @@ namespace RYT
 	public:
 	    void Render(const RaytracingContext* world);
 	    
+	    // Setters
+	    void SetLookFrom(Vec3 location);
+	    void SetLookAt(Vec3 location);
+	    void SetFov(double fov);
+	    void SetSamplesPerPixels(int n);
+	    void SetMaxDepth(int n);
+	    void SetDefocusAngle(double degree);
+	    void SetFocusDistance(double distance);
 	private:
 
 	    double aspectRatio; // Ratio of image width to height
@@ -258,8 +266,8 @@ namespace RYT
 	    int imgH; // Rendered image height
 
 	    Vec3 center; // Camera center
-	    Vec3 lookFrom; // Look from a point 
-	    Vec3 lookAt; // Look at a point
+	    Vec3 lookFrom = Vec3(0, 0, 0); // Look from a point | default : [0, 0, 0]
+	    Vec3 lookAt = Vec3(0, 0, -1); // Look at a point | default : [0, 0, -1]
 	    
 	    Vec3 u, v, w; // Relative camera frame basis
 
@@ -269,12 +277,12 @@ namespace RYT
 
 	    int samplesPerPixels; // Count of random samples per pixels
 	    double pixelSamplesScale;
-	    int maxDepth; // Maximum no of Ray bounces into scene
+	    int maxDepth = 10; // Maximum no of Ray bounces into scene
 
-	    double vFov; // vertical view angle - FOV
+	    double vFov = 90; // vertical view angle - FOV | default : [90]
 	    
-	    double defocusAngle;
-	    double focusDistance;
+	    double defocusAngle = 0;
+	    double focusDistance = 10;
 	    Vec3 defocusDiskU;
 	    Vec3 defocusDiskV;
 

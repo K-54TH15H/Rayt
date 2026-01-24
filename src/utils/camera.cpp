@@ -41,17 +41,9 @@ namespace RYT
 	imgH = (imgH < 1) ? 1 : imgH;
 	
 	// Set up Look From and Look at by default on Initialisation
-	lookFrom = Vec3(-2, 2, 1);
-	lookAt = Vec3(0, 0, -1);
 	center = lookFrom; 
 
-	samplesPerPixels = 100; // anti-aliasing on by default
 	pixelSamplesScale = 1.0 / samplesPerPixels;
-	maxDepth = 10;
-	
-	vFov = 20; // Default set to 90^
-	defocusAngle = 0;
-	focusDistance = 10;
 
 	double theta = DegreesToRadians(vFov);
 	double h = std::tan(theta / 2);
@@ -144,5 +136,41 @@ namespace RYT
 	}
 	//Ray is absorbed(trapped) [returns black]
 	return Color(0, 0, 0); 	    
+    }
+    
+    // Setters	
+    void Camera::SetLookFrom(Vec3 location)
+    {
+	lookFrom = location;
+    }
+
+    void Camera::SetLookAt(Vec3 location)
+    {
+	lookAt = location;
+    }
+
+    void Camera::SetFov(double fov)
+    {
+	vFov = fov;
+    }
+
+    void Camera::SetSamplesPerPixels(int n)
+    {
+	samplesPerPixels = n;
+    }
+
+    void Camera::SetMaxDepth(int n)
+    {
+	maxDepth = n;
+    }
+
+    void Camera::SetDefocusAngle(double degree)
+    {
+	defocusAngle = degree;
+    }
+
+    void Camera::SetFocusDistance(double distance)
+    {
+	focusDistance = distance;
     }
 }
