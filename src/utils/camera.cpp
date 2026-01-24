@@ -53,7 +53,6 @@ namespace RYT
 	defocusAngle = 0;
 	focusDistance = 10;
 
-	double focalLength = (lookFrom - lookAt).Length();
 	double theta = DegreesToRadians(vFov);
 	double h = std::tan(theta / 2);
 
@@ -143,9 +142,7 @@ namespace RYT
 		return accumulatedLight;
 	    }
 	}
-
 	//Ray is absorbed(trapped) [returns black]
 	return Color(0, 0, 0); 	    
     }
-
 }
