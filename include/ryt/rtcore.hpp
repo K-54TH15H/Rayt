@@ -257,6 +257,11 @@ namespace RYT
 	    int imgH; // Rendered image height
 
 	    Vec3 center; // Camera center
+	    Vec3 lookFrom; // Look from a point 
+	    Vec3 lookAt; // Look at a point
+	    
+	    Vec3 u, v, w; // Relative camera frame basis
+
 	    Vec3 pixel00Loc; // Location of pixel - [0, 0]
 	    Vec3 pixelDeltaU; // Offset for pixel to the right
 	    Vec3 pixelDeltaV; // Offset for pixel to the bottom

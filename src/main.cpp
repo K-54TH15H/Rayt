@@ -66,7 +66,7 @@ void RenderFovCheck()
 
 int main()
 {
-    RenderFovCheck();
+    RenderDefaultScene();
 
     return 0;
 }
