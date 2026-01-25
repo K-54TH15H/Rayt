@@ -1,24 +1,6 @@
 #include <ryt/rtcore.hpp>
 #include <cmath>
 
-void RenderDesertScene()
-{
-    RYT::RaytracingContext world;
-    RYT::InitializeRaytracingContext(&world, 16);
-
-    RYT::Metal materialGround = { RYT::Color(0.12, 0.26, 0.70), 0.25};
-    RYT::Lambertian materialMountain = { RYT::Color(0.65, 0.18, 0.15)};
-    
-    RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(0, -200.5, -1), 200, materialGround));
-    RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(-1, -20, -100), 60, materialMountain));
-
-    RYT::Camera cam;
-
-    cam.Render(&world);
-
-    RYT::DestroyRaytracingContext(&world);
-}
-
 void RenderDefaultScene()
 {
     RYT::RaytracingContext world;
@@ -40,8 +22,14 @@ void RenderDefaultScene()
 
     RYT::Camera cam;
     
-    cam.Render(&world);
+    cam.SetLookFrom(RYT::Vec3(-2, 2, 1));
+    cam.SetLookAt(RYT::Vec3(0, 0, -1));
+    cam.SetFov(20);
+    cam.SetSamplesPerPixels(500);
+    cam.SetDefocusAngle(10);
+    cam.SetFocusDistance(3.5);
 
+    cam.Render(&world);
     RYT::DestroyRaytracingContext(&world);
 }
 
