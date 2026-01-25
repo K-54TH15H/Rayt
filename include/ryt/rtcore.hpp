@@ -5,297 +5,271 @@
 #include <iostream>
 #include <limits>
 
-namespace RYT
-{
-    // ********** VEC3 ********** //
-    class Vec3
-    {
-	public:
-	    // data
-	    double x, y, z;
-	    
-	    // constructors
-	    Vec3();
-	    Vec3(double x, double y, double z);
+namespace RYT {
+// ********** VEC3 ********** //
+class Vec3 {
+public:
+  // data
+  double x, y, z;
 
-	    // operator overloadings
-	    Vec3 operator-() const;
-	    
-	    Vec3& operator+=(const Vec3& v);
-	    Vec3& operator*=(double t);
-	    Vec3& operator/=(double t);
-	    	    
-	    // length functions
-	    double LengthSquared() const;
-	    double Length() const;
+  // constructors
+  Vec3();
+  Vec3(double x, double y, double z);
 
-	    bool NearZero() const;
+  // operator overloadings
+  Vec3 operator-() const;
 
-	    static Vec3 Random();
+  Vec3 &operator+=(const Vec3 &v);
+  Vec3 &operator*=(double t);
+  Vec3 &operator/=(double t);
 
-	    static Vec3 Random(double min, double max);
-	    
-    };
+  // length functions
+  double LengthSquared() const;
+  double Length() const;
 
-    // vector utility functions
-    std::ostream& operator<<(std::ostream& os, const Vec3& v);
-    Vec3 operator+(const Vec3& u, const Vec3& v);
-    Vec3 operator-(const Vec3& u, const Vec3& v);
-    Vec3 operator*(double t, const Vec3& v);
-    Vec3 operator*(const Vec3& u, const Vec3& v);
-    Vec3 operator/(const Vec3& v, double t);
-    double Dot(const Vec3& u, const Vec3& v);
-    Vec3 Cross(const Vec3& u, const Vec3& v);
-    Vec3 UnitVector(const Vec3& v);
-    Vec3 RandomUnitVector();
-    Vec3 RandomOnHemisphere(const Vec3& normal);
-    Vec3 RandomInUnitDisk();
-    Vec3 Reflect(const Vec3& v, const Vec3& n);
-    Vec3 Refract(const Vec3& uv, const Vec3& n, double etai_over_etat);
+  bool NearZero() const;
 
-    // ********** RAY ********** //
-    class Ray
-    {
-	private:
-	    Vec3 orig;
-	    Vec3 dir;
-	public:
+  static Vec3 Random();
 
-	    // constructors
-	    Ray();
-	    Ray(const Vec3& origin, const Vec3& direction); 
-	    
-	    // getters
-	    const Vec3& Origin() const;
-	    const Vec3& Direction() const;
-	    Vec3 At(double t) const;
-    };
-    
-    // ********** Common ********** //
-    double RandomDouble();
-    double RandomDouble(double min, double max);
-    double DegreesToRadians(double degrees);
+  static Vec3 Random(double min, double max);
+};
 
-    // ********** Interval ********** //
-    // Interval constants
-    inline const double infinity = std::numeric_limits<double>::infinity();
-    inline const double pi = 3.1415926535897932385;
-    
-    
-    class Interval
-    {
-	public:
-	    double min, max;
-	    
-	    // Default interval [inf, -inf] ( empty )
-	    Interval();	    
-	    // Range based constructor
-	    Interval(double min, double max);
+// vector utility functions
+std::ostream &operator<<(std::ostream &os, const Vec3 &v);
+Vec3 operator+(const Vec3 &u, const Vec3 &v);
+Vec3 operator-(const Vec3 &u, const Vec3 &v);
+Vec3 operator*(double t, const Vec3 &v);
+Vec3 operator*(const Vec3 &u, const Vec3 &v);
+Vec3 operator/(const Vec3 &v, double t);
+double Dot(const Vec3 &u, const Vec3 &v);
+Vec3 Cross(const Vec3 &u, const Vec3 &v);
+Vec3 UnitVector(const Vec3 &v);
+Vec3 RandomUnitVector();
+Vec3 RandomOnHemisphere(const Vec3 &normal);
+Vec3 RandomInUnitDisk();
+Vec3 Reflect(const Vec3 &v, const Vec3 &n);
+Vec3 Refract(const Vec3 &uv, const Vec3 &n, double etai_over_etat);
 
-	    double Size() const; 
-	    bool Contains(double x) const;
-	    bool Surrounds(double x) const;
-	    
-	    double Clamp(double x) const;
-	    
-	    static const Interval empty, universe;
-    };
+// ********** RAY ********** //
+class Ray {
+private:
+  Vec3 orig;
+  Vec3 dir;
 
-    // Static Constant Intervals
-    inline const Interval Interval::empty = Interval(+infinity, -infinity);
-    inline const Interval Interval::universe = Interval(-infinity, +infinity);
-    
+public:
+  // constructors
+  Ray();
+  Ray(const Vec3 &origin, const Vec3 &direction);
 
-    // ********** Color ********** // 
-    using Color = Vec3; // alias for rt::Vec3 as color as an context - might need to modify
+  // getters
+  const Vec3 &Origin() const;
+  const Vec3 &Direction() const;
+  Vec3 At(double t) const;
+};
 
-    void LinearToGamma(double& linearComponent);
-    void WriteColor(std::ostream& os, const Color& pixelColor);
+// ********** Common ********** //
+double RandomDouble();
+double RandomDouble(double min, double max);
+double DegreesToRadians(double degrees);
 
-    // ********** HitRecord ********** //
-    class Material; // Forward Declarations
+// ********** Interval ********** //
+// Interval constants
+inline const double infinity = std::numeric_limits<double>::infinity();
+inline const double pi = 3.1415926535897932385;
 
-    class HitRecord
-    {
-	public:
-	    Vec3 p;
-	    Vec3 normal;
-	    Material* mat; // This Doesn't Own the Material just points to it.
-	    double t;
-	    bool frontFace;
+class Interval {
+public:
+  double min, max;
 
-	    void SetFaceNormal(const Ray& r, const Vec3& outwardNormal);
-    };
-    
-    // ********** Material ******** //
-    enum MaterialType
-    {
-	LAMBERTIAN,
-	METAL,
-	DIELECTRIC
-    };
+  // Default interval [inf, -inf] ( empty )
+  Interval();
+  // Range based constructor
+  Interval(double min, double max);
 
-    struct Lambertian
-    {
-	Color albedo;
-    };
+  double Size() const;
+  bool Contains(double x) const;
+  bool Surrounds(double x) const;
 
-    struct Metal
-    {
-	Color albedo;
-        double roughness;
-    };
-    
-    struct Dielectric
-    {
-	double refractionIndex;
-    };
+  double Clamp(double x) const;
 
-    class Material
-    {
-	private:
-	    MaterialType type;
+  static const Interval empty, universe;
+};
 
-	    union MemberData 
-	    {
-		Lambertian lambertian;
-		Metal metal;
-		Dielectric dielectric;
+// Static Constant Intervals
+inline const Interval Interval::empty = Interval(+infinity, -infinity);
+inline const Interval Interval::universe = Interval(-infinity, +infinity);
 
-		MemberData() {};
-		~MemberData() {};
-	    } data;
-	    
-	    bool ScatterLambertian(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const;
-	    bool ScatterMetal(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const;
-	    bool ScatterDielectric(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const; 
+// ********** Color ********** //
+using Color =
+    Vec3; // alias for rt::Vec3 as color as an context - might need to modify
 
-	public:
-	    
-	    // Constructors
-	    Material(const Lambertian lambertian);
-	    Material(const Metal metal);
-	    Material(const Dielectric dielectric);
+void LinearToGamma(double &linearComponent);
+void WriteColor(std::ostream &os, const Color &pixelColor);
 
-	    ~Material();
-	    
-	    bool Scatter(const Ray& rIn, const HitRecord& rec, Color& attenuation, Ray& scattered) const ;
-    
-    };
+// ********** HitRecord ********** //
+class Material; // Forward Declarations
 
-    // ********** SPHERE ********** //
-    class Sphere
-    {
-	private:
-	    Vec3 center;
-	    double radius;
-	    Material mat;
+class HitRecord {
+public:
+  Vec3 p;
+  Vec3 normal;
+  Material *mat; // This Doesn't Own the Material just points to it.
+  double t;
+  bool frontFace;
 
-	public:
-	    Sphere(const Vec3& center, double radius, Material mat);
+  void SetFaceNormal(const Ray &r, const Vec3 &outwardNormal);
+};
 
-	    bool Hit(const Ray& r, Interval t, HitRecord& rec);
-    };
-    
-    // *********** HITTABLE ********** //
-    // Tag for Geometry type
-    enum GeometryType
-    {
-	SPHERE,
-	NONE
-    };
+// ********** Material ******** //
+enum MaterialType { LAMBERTIAN, METAL, DIELECTRIC };
 
-    class Hittable
-    {
-	public:
-	    GeometryType type;
+struct Lambertian {
+  Color albedo;
+};
 
-	    union MemberData
-	    {
-		Sphere sphere;
-	
-		// default constructors get destroyed placeholder constructors and destrcutors
-		// manually handled via class constructors and destrcutors
-		MemberData() {} 
-		~MemberData() {}
+struct Metal {
+  Color albedo;
+  double roughness;
+};
 
-	    }data;
-	    
-	    Hittable();
-	    Hittable(Sphere s);
+struct Dielectric {
+  double refractionIndex;
+};
 
-	    ~Hittable();
-	     
-	    bool Hit(const Ray& r, Interval t, HitRecord& rec);
-	    
-    };
-    
-    // ********** RAYTRACING-CONTEXT **********
-    struct RaytracingContext
-    {
-	Hittable* hittables;
-	size_t hittableSize;
-	size_t hittableCapacity;
-    };
-    
-    // Context functions
-    void InitializeRaytracingContext(RaytracingContext* context, size_t capacity);
-    void DestroyRaytracingContext(RaytracingContext* context);
-    Hittable* PushHittable(RaytracingContext* context, Hittable hittable);
-    bool HitWorld(const RaytracingContext* context, const Ray& r, Interval t, HitRecord& rec);
+class Material {
+private:
+  MaterialType type;
 
+  union MemberData {
+    Lambertian lambertian;
+    Metal metal;
+    Dielectric dielectric;
 
-    // ********** Camera ********** //
-    class Camera
-    {
-	public:
-	    void Render(const RaytracingContext* world);
-	    
-	    // Setters
-	    void SetLookFrom(Vec3 location);
-	    void SetLookAt(Vec3 location);
-	    void SetFov(double fov);
-	    void SetSamplesPerPixels(int n);
-	    void SetMaxDepth(int n);
-	    void SetDefocusAngle(double degree);
-	    void SetFocusDistance(double distance);
-	private:
+    MemberData() {};
+    ~MemberData() {};
+  } data;
 
-	    double aspectRatio; // Ratio of image width to height
-	    int imgW; // Rendered image width
-	    int imgH; // Rendered image height
+  bool ScatterLambertian(const Ray &rIn, const HitRecord &rec,
+                         Color &attenuation, Ray &scattered) const;
+  bool ScatterMetal(const Ray &rIn, const HitRecord &rec, Color &attenuation,
+                    Ray &scattered) const;
+  bool ScatterDielectric(const Ray &rIn, const HitRecord &rec,
+                         Color &attenuation, Ray &scattered) const;
 
-	    Vec3 center; // Camera center
-	    Vec3 lookFrom = Vec3(0, 0, 0); // Look from a point | default : [0, 0, 0]
-	    Vec3 lookAt = Vec3(0, 0, -1); // Look at a point | default : [0, 0, -1]
-	    
-	    Vec3 u, v, w; // Relative camera frame basis
+public:
+  // Constructors
+  Material(const Lambertian lambertian);
+  Material(const Metal metal);
+  Material(const Dielectric dielectric);
 
-	    Vec3 pixel00Loc; // Location of pixel - [0, 0]
-	    Vec3 pixelDeltaU; // Offset for pixel to the right
-	    Vec3 pixelDeltaV; // Offset for pixel to the bottom
+  ~Material();
 
-	    int samplesPerPixels = 10; // Count of random samples per pixels
-	    double pixelSamplesScale;
-	    int maxDepth = 10; // Maximum no of Ray bounces into scene
+  bool Scatter(const Ray &rIn, const HitRecord &rec, Color &attenuation,
+               Ray &scattered) const;
+};
 
-	    double vFov = 90; // vertical view angle - FOV | default : [90]
-	    
-	    double defocusAngle = 0;
-	    double focusDistance = 10;
-	    Vec3 defocusDiskU;
-	    Vec3 defocusDiskV;
+// ********** SPHERE ********** //
+class Sphere {
+private:
+  Vec3 center;
+  double radius;
+  Material mat;
 
-	    void Initialize();
-	    Vec3 SampleSquare() const;
-	    
+public:
+  Sphere(const Vec3 &center, double radius, Material mat);
 
-	    // Constructs a camera Ray from origin to a randomly sampled pt i, j
-	    Ray GetRay(int i, int j) const;
-	    Color RayColor(const Ray& r, int depth, const RaytracingContext* world) const;
-	    
-	    Vec3 DefocusDiskSample() const;
-    };
-}
+  bool Hit(const Ray &r, Interval t, HitRecord &rec);
+};
+
+// *********** HITTABLE ********** //
+// Tag for Geometry type
+enum GeometryType { SPHERE, NONE };
+
+class Hittable {
+public:
+  GeometryType type;
+
+  union MemberData {
+    Sphere sphere;
+
+    // default constructors get destroyed placeholder constructors and
+    // destrcutors manually handled via class constructors and destrcutors
+    MemberData() {}
+    ~MemberData() {}
+
+  } data;
+
+  Hittable();
+  Hittable(Sphere s);
+
+  ~Hittable();
+
+  bool Hit(const Ray &r, Interval t, HitRecord &rec);
+};
+
+// ********** RAYTRACING-CONTEXT **********
+struct RaytracingContext {
+  Hittable *hittables;
+  size_t hittableSize;
+  size_t hittableCapacity;
+};
+
+// Context functions
+void InitializeRaytracingContext(RaytracingContext *context, size_t capacity);
+void DestroyRaytracingContext(RaytracingContext *context);
+Hittable *PushHittable(RaytracingContext *context, Hittable hittable);
+bool HitWorld(const RaytracingContext *context, const Ray &r, Interval t,
+              HitRecord &rec);
+
+// ********** Camera ********** //
+class Camera {
+public:
+  void Render(const RaytracingContext *world);
+
+  // Setters
+  void SetLookFrom(Vec3 location);
+  void SetLookAt(Vec3 location);
+  void SetFov(double fov);
+  void SetSamplesPerPixels(int n);
+  void SetMaxDepth(int n);
+  void SetDefocusAngle(double degree);
+  void SetFocusDistance(double distance);
+
+private:
+  double aspectRatio; // Ratio of image width to height
+  int imgW;           // Rendered image width
+  int imgH;           // Rendered image height
+
+  Vec3 center;                   // Camera center
+  Vec3 lookFrom = Vec3(0, 0, 0); // Look from a point | default : [0, 0, 0]
+  Vec3 lookAt = Vec3(0, 0, -1);  // Look at a point | default : [0, 0, -1]
+
+  Vec3 u, v, w; // Relative camera frame basis
+
+  Vec3 pixel00Loc;  // Location of pixel - [0, 0]
+  Vec3 pixelDeltaU; // Offset for pixel to the right
+  Vec3 pixelDeltaV; // Offset for pixel to the bottom
+
+  int samplesPerPixels = 10; // Count of random samples per pixels
+  double pixelSamplesScale;
+  int maxDepth = 10; // Maximum no of Ray bounces into scene
+
+  double vFov = 90; // vertical view angle - FOV | default : [90]
+
+  double defocusAngle = 0;
+  double focusDistance = 10;
+  Vec3 defocusDiskU;
+  Vec3 defocusDiskV;
+
+  void Initialize();
+  Vec3 SampleSquare() const;
+
+  // Constructs a camera Ray from origin to a randomly sampled pt i, j
+  Ray GetRay(int i, int j) const;
+  Color RayColor(const Ray &r, int depth, const RaytracingContext *world) const;
+
+  Vec3 DefocusDiskSample() const;
+};
+} // namespace RYT
 
 #endif
