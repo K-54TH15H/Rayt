@@ -17,7 +17,7 @@ bool Material::ScatterLambertian(const Ray &rIn, const HitRecord &rec,
   if (scatterDirection.NearZero())
     scatterDirection = rec.normal;
 
-  scattered = Ray(rec.p, scatterDirection);
+  scattered = Ray(rec.p, scatterDirection, rIn.Time());
   attenuation = data.lambertian.albedo;
 
   return true;
@@ -29,7 +29,7 @@ bool Material::ScatterMetal(const Ray &rIn, const HitRecord &rec,
   reflected =
       (UnitVector(reflected)) + (data.metal.roughness * RandomUnitVector());
 
-  scattered = Ray(rec.p, reflected);
+  scattered = Ray(rec.p, reflected, rIn.Time());
   attenuation = data.metal.albedo;
 
   return (Dot(scattered.Direction(), rec.normal) > 0);
@@ -54,7 +54,7 @@ bool Material::ScatterDielectric(const Ray &rIn, const HitRecord &rec,
   else
     direction = Refract(unitDirection, rec.normal, ri);
 
-  scattered = Ray(rec.p, direction);
+  scattered = Ray(rec.p, direction, rIn.Time());
   return true;
 }
 
