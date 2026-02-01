@@ -194,6 +194,7 @@ private:
   Ray center;
   double radius;
   Material mat;
+  AABB bBox;
 
 public:
   // Static Sphere Constructor
