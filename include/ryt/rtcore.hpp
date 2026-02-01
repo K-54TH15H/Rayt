@@ -94,6 +94,7 @@ public:
   bool Surrounds(double x) const;
 
   double Clamp(double x) const;
+  Interval Expand(double delta) const;
 
   static const Interval empty, universe;
 };
