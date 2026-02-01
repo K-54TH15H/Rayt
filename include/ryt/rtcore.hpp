@@ -88,6 +88,8 @@ public:
   Interval();
   // Range based constructor
   Interval(double min, double max);
+  // Intervals based tight constructor
+  Interval(const Interval &a, const Interval &b);
 
   double Size() const;
   bool Contains(double x) const;
