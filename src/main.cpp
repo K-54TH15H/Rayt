@@ -1,4 +1,6 @@
+#include <chrono>
 #include <cmath>
+#include <cstring>
 #include <ryt/rtcore.hpp>
 
 void RenderDefaultScene() {
@@ -86,8 +88,14 @@ void RenderSample() {
   RYT::DestroyRaytracingContext(&world);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+
+  auto start = std::chrono::high_resolution_clock::now();
   RenderSample();
 
-  return 0;
+  auto end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+
+  std::clog << "[ LOG ] Rendering Time : " << duration.count() << " seconds"
+            << std::endl;
 }
