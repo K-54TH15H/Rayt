@@ -210,9 +210,22 @@ public:
   AABB boundingBox() const;
 };
 
+class Hittable; // Forward Declaration for Hittable class
+		
+// ********** BVHNode ********* //
+struct BVHNode
+{
+    AABB bBox;
+    Hittable* left;
+    Hittable* right;
+};
+
+Hittable* ConstructBVHTree(Hittable* hittables, size_t start, size_t end);
+bool HitBVH(const Ray& r, Interval rayT, HitRecord& rec);
+
 // *********** HITTABLE ********** //
 // Tag for Geometry type
-enum GeometryType { SPHERE, NONE };
+enum GeometryType { SPHERE, BVH_NODE, NONE };
 
 class Hittable {
 public:
@@ -221,7 +234,7 @@ public:
 
   union MemberData {
     Sphere sphere;
-
+    BVHNode bvh;
     // default constructors get destroyed placeholder constructors and
     // destrcutors manually handled via class constructors and destrcutors
     MemberData() {}
@@ -231,6 +244,7 @@ public:
 
   Hittable();
   Hittable(Sphere s);
+  Hittable(BVHNode bvh);
 
   ~Hittable();
 
@@ -240,6 +254,8 @@ public:
 // ********** RAYTRACING-CONTEXT **********
 struct RaytracingContext {
   Hittable *hittables;
+  Hittable* bvhRoot;
+
   size_t hittableSize;
   size_t hittableCapacity;
 
@@ -253,16 +269,6 @@ void DestroyRaytracingContext(RaytracingContext *context);
 Hittable *PushHittable(RaytracingContext *context, Hittable hittable);
 bool HitWorld(const RaytracingContext *context, const Ray &r, Interval t,
               HitRecord &rec);
-
-// ********** BVHNode ********* //
-struct BVHNode
-{
-    AABB bBox;
-    Hittable* left;
-    Hittable* right;
-};
-
-BVHNode ConstructBVHTree(Hittable* hittables, size_t start, size_t end);
 
 // ********** Camera ********** //
 class Camera {

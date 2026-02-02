@@ -9,13 +9,16 @@ void InitializeRaytracingContext(RaytracingContext *context, size_t capacity) {
   // Creates an empty bounding box
   context->bBox = AABB();
   context->hittables = new Hittable[capacity];
+  context->bvhRoot = nullptr;
 }
 
 void DestroyRaytracingContext(RaytracingContext *context) {
   delete[] context->hittables;
+  context->hittables = nullptr;
+
   context->hittableSize = 0;
   context->hittableCapacity = 0;
-
+  
   // Destroys AABB by replacing  it with empty bounding box
   context->bBox = AABB(); 
 }
@@ -32,6 +35,9 @@ Hittable *PushHittable(RaytracingContext *context, Hittable hittable) {
 
 bool HitWorld(const RaytracingContext *context, const Ray &r, Interval t,
               HitRecord &rec) {
+
+  if(context->bvhRoot) return context->bvhRoot->Hit(r, t, rec);
+
   HitRecord tempRec;
   bool hitAnything = false;
   double closestSoFar = t.max;
