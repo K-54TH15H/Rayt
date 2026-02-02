@@ -55,4 +55,9 @@ bool Sphere::Hit(const Ray &r, Interval t, HitRecord &rec) {
 
   return true;
 }
+
+AABB Sphere::boundingBox() const
+{
+    return bBox;
+}
 } // namespace RYT

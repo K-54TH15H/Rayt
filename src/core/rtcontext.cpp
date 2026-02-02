@@ -5,7 +5,9 @@ namespace RYT {
 void InitializeRaytracingContext(RaytracingContext *context, size_t capacity) {
   context->hittableCapacity = capacity;
   context->hittableSize = 0;
-
+  
+  // Creates an empty bounding box
+  context->bBox = AABB();
   context->hittables = new Hittable[capacity];
 }
 
@@ -13,6 +15,9 @@ void DestroyRaytracingContext(RaytracingContext *context) {
   delete[] context->hittables;
   context->hittableSize = 0;
   context->hittableCapacity = 0;
+
+  // Destroys AABB by replacing  it with empty bounding box
+  context->bBox = AABB(); 
 }
 
 Hittable *PushHittable(RaytracingContext *context, Hittable hittable) {
@@ -20,7 +25,8 @@ Hittable *PushHittable(RaytracingContext *context, Hittable hittable) {
     return nullptr;
 
   context->hittables[context->hittableSize] = hittable;
-
+    
+  context->bBox = AABB(context->bBox, hittable.bBox);
   return &(context->hittables[context->hittableSize++]);
 }
 

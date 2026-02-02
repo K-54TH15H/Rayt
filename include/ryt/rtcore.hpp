@@ -73,6 +73,8 @@ public:
 // ********** Common ********** //
 double RandomDouble();
 double RandomDouble(double min, double max);
+int RandomInt(int min, int max);
+
 double DegreesToRadians(double degrees);
 
 // ********** Interval ********** //
@@ -203,6 +205,9 @@ public:
   Sphere(const Vec3 &center1, const Vec3 &center2, double radius, Material mat);
 
   bool Hit(const Ray &r, Interval t, HitRecord &rec);
+
+  // Retrieve Bounding Box
+  AABB boundingBox() const;
 };
 
 // *********** HITTABLE ********** //
@@ -212,6 +217,7 @@ enum GeometryType { SPHERE, NONE };
 class Hittable {
 public:
   GeometryType type;
+  AABB bBox;
 
   union MemberData {
     Sphere sphere;
@@ -236,6 +242,9 @@ struct RaytracingContext {
   Hittable *hittables;
   size_t hittableSize;
   size_t hittableCapacity;
+
+  // bounding box for the entire context scene
+  AABB bBox;
 };
 
 // Context functions
@@ -244,6 +253,16 @@ void DestroyRaytracingContext(RaytracingContext *context);
 Hittable *PushHittable(RaytracingContext *context, Hittable hittable);
 bool HitWorld(const RaytracingContext *context, const Ray &r, Interval t,
               HitRecord &rec);
+
+// ********** BVHNode ********* //
+struct BVHNode
+{
+    AABB bBox;
+    Hittable* left;
+    Hittable* right;
+};
+
+BVHNode ConstructBVHTree(Hittable* hittables, size_t start, size_t end);
 
 // ********** Camera ********** //
 class Camera {

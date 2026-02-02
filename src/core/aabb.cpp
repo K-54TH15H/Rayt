@@ -1,8 +1,8 @@
 #include <ryt/rtcore.hpp>
 
 namespace RYT {
-// Default Box is NULL Box
-AABB::AABB() {}
+// Default Box is NULL Box (Interval default is the empty constructor)
+AABB::AABB() : x(Interval::empty), y(Interval::empty), z(Interval::empty) {}
 
 AABB::AABB(const Interval &x, const Interval &y, const Interval &z)
     : x(x), y(y), z(z) {}

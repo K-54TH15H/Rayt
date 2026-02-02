@@ -86,6 +86,7 @@ void RenderSample() {
   cam.Render(&world);
 
   RYT::DestroyRaytracingContext(&world);
+
 }
 
 int main(int argc, char *argv[]) {
