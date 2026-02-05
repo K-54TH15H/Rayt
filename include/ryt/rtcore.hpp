@@ -73,6 +73,8 @@ public:
 // ********** Common ********** //
 double RandomDouble();
 double RandomDouble(double min, double max);
+int RandomInt(int min, int max);
+
 double DegreesToRadians(double degrees);
 
 // ********** Interval ********** //
@@ -88,12 +90,15 @@ public:
   Interval();
   // Range based constructor
   Interval(double min, double max);
+  // Intervals based tight constructor
+  Interval(const Interval &a, const Interval &b);
 
   double Size() const;
   bool Contains(double x) const;
   bool Surrounds(double x) const;
 
   double Clamp(double x) const;
+  Interval Expand(double delta) const;
 
   static const Interval empty, universe;
 };
@@ -171,12 +176,27 @@ public:
                Ray &scattered) const;
 };
 
+// ********** AABB ********** //
+class AABB {
+public:
+  Interval x, y, z;
+  // constructors
+  AABB();
+  AABB(const Interval &x, const Interval &y, const Interval &z);
+  AABB(const Vec3 &a, const Vec3 &b);
+  AABB(const AABB &boxA, const AABB &boxB);
+
+  const Interval &AxisInterval(int n) const;
+  bool Hit(const Ray &r, Interval rayT) const;
+};
+
 // ********** SPHERE ********** //
 class Sphere {
 private:
   Ray center;
   double radius;
   Material mat;
+  AABB bBox;
 
 public:
   // Static Sphere Constructor
@@ -185,7 +205,28 @@ public:
   Sphere(const Vec3 &center1, const Vec3 &center2, double radius, Material mat);
 
   bool Hit(const Ray &r, Interval t, HitRecord &rec);
+
+  // Retrieve Bounding Box
+  AABB boundingBox() const;
 };
+
+class Hittable; // Forward Declaration for Hittable class
+		
+// ********** BVHNode ********* //
+struct BVHNode
+{
+    AABB bBox;
+    int leftIndex;
+    int rightIndex;
+    bool isLeaf;
+
+    BVHNode() : leftIndex(-1), rightIndex(-1), isLeaf(false) {}
+};
+
+struct RaytracingContext; // forward Declaration 
+
+int ConstructBVHTree(RaytracingContext* hittables, size_t start, size_t end);
+bool HitBVH(const RaytracingContext* context, int nodeIndex, const Ray &r,  Interval rayT, HitRecord& rec);
 
 // *********** HITTABLE ********** //
 // Tag for Geometry type
@@ -194,10 +235,10 @@ enum GeometryType { SPHERE, NONE };
 class Hittable {
 public:
   GeometryType type;
+  AABB bBox;
 
   union MemberData {
     Sphere sphere;
-
     // default constructors get destroyed placeholder constructors and
     // destrcutors manually handled via class constructors and destrcutors
     MemberData() {}
@@ -216,12 +257,22 @@ public:
 // ********** RAYTRACING-CONTEXT **********
 struct RaytracingContext {
   Hittable *hittables;
+
   size_t hittableSize;
   size_t hittableCapacity;
+
+  BVHNode* bvhNodes;
+  size_t bvhNodeSize;
+  size_t bvhNodeCapacity;
+
+  int bvhRootIndex;
+  // bounding box for the entire context scene
+  AABB bBox;
 };
 
 // Context functions
 void InitializeRaytracingContext(RaytracingContext *context, size_t capacity);
+void OptimizeRaytracingContext(RaytracingContext* context);
 void DestroyRaytracingContext(RaytracingContext *context);
 Hittable *PushHittable(RaytracingContext *context, Hittable hittable);
 bool HitWorld(const RaytracingContext *context, const Ray &r, Interval t,

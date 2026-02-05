@@ -11,5 +11,9 @@ double RandomDouble(double min, double max) {
   return min + ((max - min) * RandomDouble());
 }
 
+int RandomInt(int min, int max)
+{
+    return int(RandomDouble(min, max+1));
+}
 double DegreesToRadians(double degrees) { return degrees * pi / 180.0; }
 } // namespace RYT

@@ -1,3 +1,4 @@
+#include <chrono>
 #include <cmath>
 #include <ryt/rtcore.hpp>
 
@@ -72,6 +73,8 @@ void RenderSample() {
   RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(0, -200.5, -2), 200, mirror));
   RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(-3, 0.5, -2), 1, yellow));
   RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(-1.5, 0.5, -3.5), 1, blue));
+  
+  world.bvhRootIndex = RYT::ConstructBVHTree(&world, 0, world.hittableSize);
 
   RYT::Camera cam;
   cam.SetLookFrom(RYT::Vec3(2.5, 7.5, 5));
@@ -84,10 +87,43 @@ void RenderSample() {
   cam.Render(&world);
 
   RYT::DestroyRaytracingContext(&world);
+
 }
 
-int main() {
-  RenderSample();
+void RenderHeavy()
+{
+    RYT::RaytracingContext world;
+    RYT::InitializeRaytracingContext(&world, 120);
 
-  return 0;
+    RYT::Lambertian groundMaterial = {RYT::Color(0.5, 0.5, 0.5)};
+    RYT::PushHittable(&world, RYT::Sphere(RYT::Vec3(0, -1000, 0), 1000, groundMaterial));
+
+    for(int i = 0; i < 100; i++)
+    {
+	RYT::Vec3 center(i * RYT::RandomDouble(), 0, i * RYT::RandomDouble());
+	RYT::Lambertian mat = {RYT::Color(RYT::RandomDouble(), RYT::RandomDouble(), RYT::RandomDouble())};
+	RYT::PushHittable(&world, RYT::Sphere(center, 5,mat)); 
+    }
+    // Optimise World By Constructing A BVH Tree
+    RYT::OptimizeRaytracingContext(&world);
+
+    RYT::Camera cam;
+    cam.SetSamplesPerPixels(10);
+    cam.SetMaxDepth(10);
+    cam.SetFov(20);
+    cam.SetLookFrom(RYT::Vec3(50, 50, 50));
+    cam.SetLookAt(RYT::Vec3(0, 0, 0));
+    
+    cam.Render(&world);
+}
+int main(int argc, char *argv[]) {
+
+  auto start = std::chrono::high_resolution_clock::now();
+  RenderHeavy();
+
+  auto end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+
+  std::clog << "[ LOG ] Rendering Time : " << duration.count() << " seconds"
+            << std::endl;
 }

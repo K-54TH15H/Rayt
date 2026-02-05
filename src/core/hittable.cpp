@@ -6,6 +6,7 @@ Hittable::Hittable() { type = NONE; }
 Hittable::Hittable(Sphere s) {
   type = SPHERE;
   data.sphere = s;
+  bBox = s.boundingBox();
 }
 
 Hittable::~Hittable() {
@@ -20,12 +21,15 @@ Hittable::~Hittable() {
 }
 
 bool Hittable::Hit(const Ray &r, Interval t, HitRecord &rec) {
-  switch (type) {
-  case SPHERE:
-    return ((data.sphere)).Hit(r, t, rec);
+  if(!bBox.Hit(r, t)) return false;
 
-  default: // Hit None
-    return false;
+  switch (type) {
+      case SPHERE:
+	  return ((data.sphere)).Hit(r, t, rec);
+    
+     // Hit None
+     default:
+		     return false;
   }
 }
 

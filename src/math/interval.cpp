@@ -7,6 +7,12 @@ Interval::Interval() : min(+infinity), max(-infinity) {}
 // Range based constructor
 Interval::Interval(double min, double max) : min(min), max(max) {}
 
+// Intervals based tight constructor
+Interval::Interval(const Interval &a, const Interval &b) {
+  min = (a.min <= b.min) ? a.min : b.min;
+  max = (a.max >= b.max) ? a.max : b.max;
+}
+
 double Interval::Size() const { return max - min; }
 
 bool Interval::Contains(double x) const { return min <= x && x <= max; }
@@ -20,5 +26,10 @@ double Interval::Clamp(double x) const {
     return max;
   else
     return x;
+}
+
+Interval Interval::Expand(double delta) const {
+  double padd = delta / 2;
+  return Interval(min - padd, max + padd);
 }
 } // namespace RYT
