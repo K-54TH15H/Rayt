@@ -1,4 +1,4 @@
-#include <ryt/rtcore.hpp>
+#include <ryt/core/hittable.hpp>
 
 namespace RYT {
 Hittable::Hittable() { type = NONE; }

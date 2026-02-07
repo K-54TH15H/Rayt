@@ -1,5 +1,7 @@
 #include <algorithm>
-#include <ryt/rtcore.hpp>
+
+#include <ryt/core/bvh.hpp>
+#include <ryt/core/rtcontext.hpp>
 
 namespace RYT {
 static bool BoxCompare(const Hittable &a, const Hittable &b, int axisIndex) {
@@ -19,11 +21,10 @@ static bool BoxZCompare(const Hittable &a, const Hittable &b) {
 
 int ConstructBVHTree(RaytracingContext *context, size_t start, size_t end) {
   size_t span = end - start;
-  
+
   AABB spanbBox;
-  for(size_t i = start; i < end; i++)
-  {
-	spanbBox = AABB(spanbBox, context->hittables[i].bBox);
+  for (size_t i = start; i < end; i++) {
+    spanbBox = AABB(spanbBox, context->hittables[i].bBox);
   }
   int axis = spanbBox.LongestAxis();
 
